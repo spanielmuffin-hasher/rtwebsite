@@ -51,7 +51,7 @@ export interface SanityEvent {
 export type EventListItem = Pick<
   SanityEvent,
   "_id" | "title" | "slug" | "date" | "category" | "featured" | "coverImage"
->;
+> & { excerpt?: string };
 
 // ─── Team ─────────────────────────────────────────────────────────────────────
 export interface TeamMember {

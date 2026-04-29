@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Hero } from "@/components/Hero";
 import { SectionReveal, StaggerReveal } from "@/components/SectionReveal";
 import { EventCard } from "@/components/EventCard";
 import { TeamCard } from "@/components/TeamCard";
-import { HorizontalGallery } from "@/components/GalleryGrid";
 import { SupportCauses } from "@/components/sections/SupportCauses";
 import { FAQ } from "@/components/sections/FAQ";
 import { OfficialMessages } from "@/components/sections/OfficialMessages";
@@ -12,14 +12,16 @@ import { MilestoneBanner } from "@/components/sections/MilestoneBanner";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { DiscoverSpirit } from "@/components/sections/DiscoverSpirit";
 import { GSAPHomeAnimations } from "@/components/sections/GSAPHomeAnimations";
-import { ParallaxBg } from "@/components/ParallaxSection";
 import { FloatingOrbs } from "@/components/FloatingOrbs";
+import { urlFor } from "@/lib/image";
 import {
   getFeaturedEvents,
   getLeadershipTeam,
-  getFeaturedGallery,
+  getGalleryImages,
+  getAllBulletins,
 } from "@/lib/sanity.queries";
 import Link from "next/link";
+import type { GalleryImage } from "@/types";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -33,12 +35,28 @@ export const metadata: Metadata = {
   },
 };
 
+// Flatten album images → flat photos for homepage gallery strip
+function getRecentPhotos(albums: GalleryImage[], max = 6) {
+  return albums
+    .flatMap((album) =>
+      (album.images ?? []).map((img, i) => ({
+        key: `${album._id}-${img._key ?? i}`,
+        image: img,
+        caption: album.caption ?? album.title,
+      }))
+    )
+    .slice(0, max);
+}
+
 export default async function HomePage() {
-  const [events, team, gallery] = await Promise.all([
+  const [events, team, galleryAlbums, bulletins] = await Promise.all([
     getFeaturedEvents(),
     getLeadershipTeam(),
-    getFeaturedGallery(),
+    getGalleryImages(),
+    getAllBulletins(),
   ]);
+
+  const recentPhotos = getRecentPhotos(galleryAlbums, 6);
 
   return (
     <>
@@ -162,19 +180,18 @@ export default async function HomePage() {
       {/* ── Discover Your Rotaract Spirit ─────────────────────── */}
       <DiscoverSpirit />
 
-
       {/* ── Support Our Causes ────────────────────────────────── */}
       <SupportCauses />
 
-      {/* ── Frequently Asked Questions ────────────────────────── */}
-      <FAQ />
+      {/* ── Crystals in Action (featured events) ──────────────── */}
+      <OurProjects events={events} />
 
-      {/* ── Our Events Gallery ────────────────────────────────── */}
-      {gallery.length > 0 && (
-        <section className="pt-24 bg-white overflow-hidden relative">
+      {/* ── Recent Photos ─────────────────────────────────────── */}
+      {recentPhotos.length > 0 && (
+        <section className="py-24 bg-white relative overflow-hidden">
           <FloatingOrbs variant="section" />
-          <div className="container-wide section-padding mb-6 relative z-10">
-            <SectionReveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-5">
+          <div className="container-wide section-padding relative z-10">
+            <SectionReveal className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-5 mb-10">
               <div>
                 <p className="text-primary text-xs font-semibold tracking-[0.25em] uppercase mb-3">
                   Our Events Gallery
@@ -187,16 +204,36 @@ export default async function HomePage() {
                 Full Gallery
               </Link>
             </SectionReveal>
+
+            <StaggerReveal className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {recentPhotos.map((photo) => {
+                const url = photo.image?.asset?._ref
+                  ? urlFor(photo.image).width(600).height(400).fit("crop").format("webp").url()
+                  : null;
+                if (!url) return null;
+                return (
+                  <Link
+                    key={photo.key}
+                    href="/gallery"
+                    className="group relative rounded-2xl overflow-hidden bg-neutral-100 h-52 block"
+                  >
+                    <Image
+                      src={url}
+                      alt={photo.image?.alt ?? photo.caption ?? "Gallery photo"}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                      <p className="text-white text-xs font-medium line-clamp-1">{photo.caption}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </StaggerReveal>
           </div>
-          <HorizontalGallery images={gallery} />
         </section>
       )}
-
-      {/* ── Message from Club Officials ───────────────────────── */}
-      <OfficialMessages />
-
-      {/* ── Our Projects ──────────────────────────────────────── */}
-      <OurProjects />
 
       {/* ── Milestone Marked! ─────────────────────────────────── */}
       <MilestoneBanner />
@@ -219,17 +256,71 @@ export default async function HomePage() {
             </Link>
           </SectionReveal>
 
-          <SectionReveal>
-            <div className="rounded-3xl border border-pink-100 p-12 text-center" style={{ background: "linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 100%)" }}>
-              <p className="text-slate-500 text-sm">
-                Bulletin issues are published periodically. Visit the{" "}
-                <Link href="/bulletins" className="text-primary font-semibold hover:underline">
-                  Bulletins page
-                </Link>{" "}
-                to read and download all editions.
-              </p>
-            </div>
-          </SectionReveal>
+          {bulletins.length > 0 ? (
+            <StaggerReveal className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bulletins.slice(0, 3).map((bulletin) => {
+                const coverUrl = bulletin.coverImage?.asset?._ref
+                  ? urlFor(bulletin.coverImage).width(400).height(220).fit("crop").format("webp").url()
+                  : null;
+                return (
+                  <div
+                    key={bulletin._id}
+                    className="group flex flex-col rounded-3xl border border-neutral-100 overflow-hidden hover:border-primary/20 hover:shadow-card-hover transition-all duration-300"
+                  >
+                    {coverUrl ? (
+                      <div className="relative w-full h-44 bg-neutral-100 flex-shrink-0">
+                        <Image
+                          src={coverUrl}
+                          alt={bulletin.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full h-44 bg-primary/5 flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-10 h-10 text-primary/30">
+                          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                    )}
+                    <div className="p-6 flex flex-col flex-1">
+                      {bulletin.issue && (
+                        <p className="text-primary text-[10px] font-bold tracking-widest uppercase mb-1">
+                          {bulletin.issue}
+                        </p>
+                      )}
+                      <h3 className="font-display font-bold text-neutral-900 text-base mb-1 group-hover:text-primary transition-colors">
+                        {bulletin.title}
+                      </h3>
+                      <p className="text-neutral-400 text-xs mb-4">
+                        {new Date(bulletin.publishedAt).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
+                      </p>
+                      <div className="flex gap-2 mt-auto">
+                        {bulletin.pdfUrl && (
+                          <a href={bulletin.pdfUrl} target="_blank" rel="noopener noreferrer" className="btn-primary text-xs py-2 px-4">
+                            Read Online
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </StaggerReveal>
+          ) : (
+            <SectionReveal>
+              <div className="rounded-3xl border border-pink-100 p-12 text-center" style={{ background: "linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 100%)" }}>
+                <p className="text-slate-500 text-sm">
+                  Bulletin issues are published periodically. Visit the{" "}
+                  <Link href="/bulletins" className="text-primary font-semibold hover:underline">
+                    Bulletins page
+                  </Link>{" "}
+                  to read and download all editions.
+                </p>
+              </div>
+            </SectionReveal>
+          )}
         </div>
       </section>
 
@@ -263,6 +354,12 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ── Message from Club Officials ───────────────────────── */}
+      <OfficialMessages />
+
+      {/* ── Frequently Asked Questions ────────────────────────── */}
+      <FAQ />
 
       {/* ── Connect With Us ───────────────────────────────────── */}
       <section className="py-28 relative overflow-hidden" style={{ background: "linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 50%, #fce7f3 100%)" }}>

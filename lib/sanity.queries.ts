@@ -25,7 +25,8 @@ const eventListFields = groq`
   date,
   category,
   featured,
-  coverImage { ${imageFields} }
+  coverImage { ${imageFields} },
+  "excerpt": pt::text(description)
 `;
 
 const eventFullFields = groq`

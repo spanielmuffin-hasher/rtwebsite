@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { urlFor } from "@/lib/image";
@@ -33,10 +33,82 @@ interface GalleryGridProps {
   images: GalleryImage[];
 }
 
+// ─── Lightbox ─────────────────────────────────────────────────────────────────
+
+function Lightbox({ photo, onClose }: { photo: FlatPhoto; onClose: () => void }) {
+  const imageUrl = photo.image?.asset?._ref
+    ? urlFor(photo.image).width(1400).format("webp").quality(90).url()
+    : null;
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  if (!imageUrl) return null;
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[99990] flex items-center justify-center p-4 md:p-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-neutral-950/92 backdrop-blur-sm" />
+
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+        aria-label="Close"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+          <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+        </svg>
+      </button>
+
+      {/* Image container — stop propagation so clicking image doesn't close */}
+      <motion.div
+        className="relative z-10 max-w-5xl w-full max-h-[88vh] rounded-2xl overflow-hidden"
+        initial={{ scale: 0.93, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Image
+          src={imageUrl}
+          alt={photo.image?.alt ?? photo.caption ?? "Gallery photo"}
+          width={1400}
+          height={900}
+          className="w-full h-auto max-h-[88vh] object-contain"
+          priority
+        />
+        {photo.caption && (
+          <div className="absolute bottom-0 left-0 right-0 px-5 py-3 bg-gradient-to-t from-black/70 to-transparent">
+            <p className="text-white text-sm font-medium">{photo.caption}</p>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── Masonry grid ─────────────────────────────────────────────────────────────
 export function GalleryGrid({ images }: GalleryGridProps) {
   const prefersReduced = useReducedMotion();
   const photos = flattenAlbums(images);
+  const [lightboxPhoto, setLightboxPhoto] = useState<FlatPhoto | null>(null);
+  const openLightbox = useCallback((p: FlatPhoto) => setLightboxPhoto(p), []);
+  const closeLightbox = useCallback(() => setLightboxPhoto(null), []);
 
   if (!photos.length) {
     return (
@@ -47,16 +119,25 @@ export function GalleryGrid({ images }: GalleryGridProps) {
   }
 
   return (
-    <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
-      {photos.map((photo, i) => (
-        <PhotoTile
-          key={photo.key}
-          photo={photo}
-          index={i}
-          prefersReduced={!!prefersReduced}
-        />
-      ))}
-    </div>
+    <>
+      <div className="columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
+        {photos.map((photo, i) => (
+          <PhotoTile
+            key={photo.key}
+            photo={photo}
+            index={i}
+            prefersReduced={!!prefersReduced}
+            onClick={openLightbox}
+          />
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {lightboxPhoto && (
+          <Lightbox photo={lightboxPhoto} onClose={closeLightbox} />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -64,10 +145,12 @@ function PhotoTile({
   photo,
   index,
   prefersReduced,
+  onClick,
 }: {
   photo: FlatPhoto;
   index: number;
   prefersReduced: boolean;
+  onClick: (p: FlatPhoto) => void;
 }) {
   const imageUrl = photo.image?.asset?._ref
     ? urlFor(photo.image).width(500).format("webp").url()
@@ -86,6 +169,7 @@ function PhotoTile({
         ease: [0.16, 1, 0.3, 1],
         delay: prefersReduced ? 0 : (index % 9) * 0.06,
       }}
+      onClick={() => onClick(photo)}
     >
       <Image
         src={imageUrl}
@@ -95,24 +179,24 @@ function PhotoTile({
         className="object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
       />
 
-      {/* Caption reveal on hover */}
-      {photo.caption && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-transparent to-transparent flex items-end p-4"
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.28 }}
-        >
-          <motion.p
-            className="text-white text-sm font-medium leading-snug"
-            initial={{ y: 12, opacity: 0 }}
-            whileHover={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.04 }}
-          >
-            {photo.caption}
-          </motion.p>
-        </motion.div>
-      )}
+      {/* Hover overlay */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-transparent to-transparent flex items-end p-3"
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.22 }}
+      >
+        <p className="text-white text-xs font-medium leading-snug line-clamp-2">
+          {photo.caption}
+        </p>
+      </motion.div>
+
+      {/* Zoom icon hint */}
+      <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="w-3.5 h-3.5">
+          <path d="M15 3h6m0 0v6m0-6l-7 7M9 21H3m0 0v-6m0 6l7-7" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
     </motion.div>
   );
 }
@@ -154,7 +238,6 @@ export function HorizontalGallery({ images }: GalleryGridProps) {
 
   if (!photos.length) return null;
 
-  // Reduced-motion fallback
   if (prefersReduced) {
     return (
       <div className="flex gap-4 overflow-x-auto pb-4 px-[5vw]">
@@ -202,12 +285,7 @@ export function HorizontalGallery({ images }: GalleryGridProps) {
       >
         {photos.map((photo, i) => {
           const url = photo.image?.asset?._ref
-            ? urlFor(photo.image)
-                .width(700)
-                .height(500)
-                .fit("crop")
-                .format("webp")
-                .url()
+            ? urlFor(photo.image).width(700).height(500).fit("crop").format("webp").url()
             : null;
           if (!url) return null;
 
@@ -223,11 +301,7 @@ export function HorizontalGallery({ images }: GalleryGridProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-                delay: i * 0.04,
-              }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.04 }}
             >
               <Image
                 src={url}
@@ -238,7 +312,6 @@ export function HorizontalGallery({ images }: GalleryGridProps) {
                 placeholder="blur"
                 blurDataURL={BLUR_GALLERY}
               />
-
               <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-neutral-900/75 via-neutral-900/10 to-transparent"
                 initial={{ opacity: 0 }}

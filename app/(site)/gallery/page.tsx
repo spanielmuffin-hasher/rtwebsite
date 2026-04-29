@@ -33,7 +33,7 @@ export default async function GalleryPage({ searchParams }: PageProps) {
   return (
     <>
       {/* Header */}
-      <section className="pt-32 pb-16 bg-neutral-50 border-b border-neutral-100">
+      <section className="pt-24 md:pt-32 pb-10 md:pb-16 bg-neutral-50 border-b border-neutral-100">
         <div className="container-wide section-padding">
           <SectionReveal>
             <p className="text-primary text-xs font-semibold tracking-[0.25em] uppercase mb-3">

@@ -225,6 +225,7 @@ export function CommunityCanvas() {
 
     // ── render loop ───────────────────────────────────────────
     const draw = () => {
+      if (W === 0 || H === 0) { raf = requestAnimationFrame(draw); return; }
       ctx.clearRect(0, 0, W, H);
 
       t          += 1;
@@ -288,7 +289,7 @@ export function CommunityCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
       style={{ zIndex: 1 }}
       aria-hidden="true"
     />

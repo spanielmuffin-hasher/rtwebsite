@@ -60,10 +60,10 @@ export function Hero({ title, subtitle, cta, ctaSecondary, eyebrow }: HeroProps)
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           className="mb-8 mt-6"
         >
-          <span className="inline-flex items-center gap-3 whitespace-nowrap">
-            <span className="w-6 h-[2px] bg-gradient-to-r from-primary to-violet-500 rounded-full flex-shrink-0" />
+          <span className="inline-flex items-center gap-3">
+            <span className="w-6 h-[2px] bg-gradient-to-r from-primary to-violet-500 rounded-full flex-shrink-0 self-start mt-[0.55em]" />
             <span
-              className="font-display font-semibold tracking-[0.18em] uppercase whitespace-nowrap"
+              className="font-display font-semibold tracking-[0.18em] uppercase"
               style={{
                 fontSize: "0.9rem",
                 background: "linear-gradient(90deg, #EC4899, #8B5CF6)",
@@ -165,7 +165,7 @@ export function Hero({ title, subtitle, cta, ctaSecondary, eyebrow }: HeroProps)
 
       {/* Stats strip — left-aligned */}
       <motion.div
-        className="flex items-center justify-start gap-5 flex-wrap"
+        className="grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-start gap-3 sm:gap-5"
         initial={mounted ? { opacity: 0, y: 16 } : false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 1.3 }}
@@ -194,8 +194,8 @@ export function Hero({ title, subtitle, cta, ctaSecondary, eyebrow }: HeroProps)
     </>
   );
 
-  const wrapperClass = "relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-28";
-  const innerClass   = "max-w-[520px] lg:max-w-[500px]";
+  const wrapperClass = "relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-28";
+  const innerClass   = "w-full lg:max-w-[500px]";
 
   return (
     <section

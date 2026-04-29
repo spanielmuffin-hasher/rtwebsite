@@ -103,7 +103,7 @@ export function Navbar() {
                 alt="Rotaract Club of Coimbatore Crystals"
                 width={260}
                 height={80}
-                className="object-contain"
+                className="object-contain w-[140px] sm:w-[180px] lg:w-[220px]"
                 priority
               />
             </MagneticButton>

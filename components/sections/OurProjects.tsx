@@ -2,17 +2,16 @@ import { SectionReveal, StaggerReveal } from "@/components/SectionReveal";
 
 const PROJECTS = [
   {
-    title: "UNITE Club Orientation",
+    title: "Make a wish",
     description:
-      "Annual onboarding experience welcoming new members into the Rotaract family with workshops, team-building activities, and mentorship sessions.",
+      "“Make a Wish – Let the Magic Happen” is a heartfelt flagship initiative dedicated to fulfilling the cherished wishes of children battling cancer, bringing them moments of joy, hope, and unforgettable happiness.",
     category: "Club Service",
     year: "2024",
   },
   {
-    title: "Tex-365",
+    title: "Namma Vote",
     description:
-      "A year-long community engagement programme ensuring continuous service delivery throughout all 12 months, not just during peak events.",
-    category: "Community Service",
+      "“Namma Vote” is a voter awareness initiative aimed at educating and empowering citizens, especially the youth, to actively participate in the democratic process. Organized by the Rotaract Club of Coimbatore Crystals and Rotaract Club of PSG CAS in collaboration with the Election Commission of India, Tamil Nadu",
     year: "2024",
   },
   {

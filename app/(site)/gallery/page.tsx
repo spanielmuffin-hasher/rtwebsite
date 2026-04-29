@@ -11,11 +11,8 @@ export const metadata: Metadata = {
 
 const CATEGORIES = [
   { value: "", label: "All Photos" },
-  { value: "events", label: "Events" },
-  { value: "community-service", label: "Community Service" },
-  { value: "club-activities", label: "Club Activities" },
+  { value: "projects", label: "Projects" },
   { value: "awards", label: "Awards & Recognition" },
-  { value: "rotaract-week", label: "Rotaract Week" },
 ];
 
 interface PageProps {

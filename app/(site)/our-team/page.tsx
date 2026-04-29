@@ -78,7 +78,7 @@ export default async function OurTeamPage() {
           <div className="container-wide section-padding text-center">
             <SectionReveal>
               <p className="text-neutral-400 text-lg">
-                Team profiles will appear here once added via the CMS.
+                No team members found.
               </p>
             </SectionReveal>
           </div>

@@ -5,28 +5,13 @@ const PROJECTS = [
     title: "Make a wish",
     description:
       "“Make a Wish – Let the Magic Happen” is a heartfelt flagship initiative dedicated to fulfilling the cherished wishes of children battling cancer, bringing them moments of joy, hope, and unforgettable happiness.",
-    category: "Club Service",
-    year: "2024",
+    year: "2026",
   },
   {
     title: "Namma Vote",
     description:
-      "“Namma Vote” is a voter awareness initiative aimed at educating and empowering citizens, especially the youth, to actively participate in the democratic process. Organized by the Rotaract Club of Coimbatore Crystals and Rotaract Club of PSG CAS in collaboration with the Election Commission of India, Tamil Nadu",
-    year: "2024",
-  },
-  {
-    title: "Magizh — Dreams on Wheels",
-    description:
-      "Mobile learning lab bringing quality education and recreational activities to children in remote communities who lack access to schools.",
-    category: "District Priority",
-    year: "2024",
-  },
-  {
-    title: "SERVE — Supporting Farmers",
-    description:
-      "Providing agricultural support, financial literacy workshops, and market linkages to marginalised farming communities in the region.",
-    category: "International Service",
-    year: "2023",
+      "“Namma Vote” is a voter awareness initiative aimed at educating and empowering citizens, especially the youth, to actively participate in the democratic process.",
+    year: "2026",
   },
 ];
 
@@ -35,15 +20,12 @@ export function OurProjects() {
     <section className="py-24 bg-white">
       <div className="container-wide section-padding">
         <SectionReveal className="text-center mb-16">
-          <p className="text-primary text-xs font-semibold tracking-[0.25em] uppercase mb-3">
-            Our Projects
-          </p>
+
           <h2 className="text-4xl md:text-5xl font-display font-bold text-neutral-900 mb-5">
-            Impact in Action
+            Crystals in Action
           </h2>
           <p className="text-neutral-500 max-w-xl mx-auto leading-relaxed">
-            From local neighbourhoods to tribal villages — our projects are
-            designed to create lasting, measurable change.
+          Driven by service, united by purpose — creating change that truly matters.
           </p>
         </SectionReveal>
 
@@ -58,9 +40,6 @@ export function OurProjects() {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
-                  <span className="text-xs font-semibold text-primary tracking-wide uppercase">
-                    {project.category}
-                  </span>
                   <span className="text-neutral-300">·</span>
                   <span className="text-xs text-neutral-400">{project.year}</span>
                 </div>

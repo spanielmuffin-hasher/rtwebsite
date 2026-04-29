@@ -62,7 +62,7 @@ export const gallerySchema = defineType({
       options: {
         list: [
           { title: "Events", value: "events" },
-          { title: "Community Service", value: "community-service" },
+          { title: "Projects", value: "projects" },
           { title: "Club Activities", value: "club-activities" },
           { title: "Awards & Recognition", value: "awards" },
           { title: "Rotaract Week", value: "rotaract-week" },

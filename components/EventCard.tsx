@@ -13,7 +13,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   "district-priority": "District Priority",
   "international-service": "International Service",
   "professional-service": "Professional Service",
-  "rotaract-week": "Rotaract Week",
 };
 
 interface EventCardProps {

@@ -13,10 +13,9 @@ const CATEGORIES = [
   { value: "", label: "All Activities" },
   { value: "club-service", label: "Club Service" },
   { value: "community-service", label: "Community Service" },
-  { value: "district-priority", label: "District Priority Projects" },
-  { value: "international-service", label: "International Service" },
   { value: "professional-service", label: "Professional Service" },
-  { value: "rotaract-week", label: "Rotaract Week Celebration" },
+  { value: "international-service", label: "International Service" },
+  { value: "district-priority", label: "District Priority Projects" },
 ];
 
 interface PageProps {
@@ -45,7 +44,7 @@ export default async function OurActivitiesPage({ searchParams }: PageProps) {
             </h1>
             <p className="text-neutral-500 max-w-xl leading-relaxed">
               From community outreach to professional development — browse all
-              Rotaract Crystals events and projects.
+              our events and projects.
             </p>
           </SectionReveal>
         </div>

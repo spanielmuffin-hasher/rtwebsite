@@ -1,0 +1,344 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+:root {
+  --color-primary: #EC4899;
+  --color-primary-dark: #DB2777;
+  --color-primary-light: #FCE7F3;
+  --color-accent: #8B5CF6;
+  --color-accent-amber: #F59E0B;
+  --color-bg: #ffffff;
+  --color-bg-subtle: #fdf2f8;
+  --color-bg-lavender: #f5f3ff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --nav-height: 4.5rem;
+  --section-gap: 6rem;
+  --lenis-duration: 1.2s;
+}
+
+/* ─── Lenis Smooth Scroll ────────────────────────────────────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  position: relative; /* required by Lenis scroll offset calculation */
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  position: relative; /* required by Lenis scroll offset calculation */
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fdf2f8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f9a8d4;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ─── Focus Visible ──────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Typography Base ────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-clash, system-ui, sans-serif);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+p {
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* ─── Layout Utilities ───────────────────────────────────────────────────── */
+@layer utilities {
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-tight {
+    @apply max-w-5xl mx-auto;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Shimmer skeleton effect */
+  .skeleton {
+    @apply bg-neutral-200 rounded-lg overflow-hidden relative;
+    background: linear-gradient(
+      90deg,
+      #fce7f3 25%,
+      #fdf2f8 50%,
+      #fce7f3 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Pink glass */
+  .glass-pink {
+    background: rgba(253, 242, 248, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(249, 168, 212, 0.3);
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    background: linear-gradient(135deg, #EC4899, #8B5CF6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #F43F5E, #F59E0B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Primary button fill */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full
+      bg-primary text-white font-semibold text-sm tracking-wide
+      transition-all duration-300 hover:bg-primary-600 active:scale-95
+      shadow-sm hover:shadow-pink-glow;
+  }
+
+  /* Outlined button */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full
+      border border-neutral-200 text-neutral-800 font-semibold text-sm tracking-wide
+      transition-all duration-300 hover:border-primary hover:text-primary active:scale-95;
+  }
+
+  /* Section reveal base */
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Horizontal scroll container */
+  .h-scroll-container {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .h-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Clip path helpers */
+  .clip-inset-top {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .clip-inset-none {
+    clip-path: inset(0 0 0% 0);
+  }
+
+  /* Animated gradient border */
+  .gradient-border {
+    position: relative;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, #EC4899, #8B5CF6, #F59E0B);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .gradient-border:hover::before {
+    opacity: 1;
+  }
+}
+
+/* ─── Floating Orb Keyframes ─────────────────────────────────────────────── */
+@keyframes float1 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  25%       { transform: translate(45px, -30px) scale(1.07); }
+  50%       { transform: translate(-30px, 45px) scale(0.94); }
+  75%       { transform: translate(30px, 15px) scale(1.04); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(-55px, 30px) scale(1.09); }
+  66%       { transform: translate(30px, -45px) scale(0.92); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50%       { transform: translate(40px, -25px) scale(1.08); }
+}
+
+@keyframes float4 {
+  0%, 100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
+  25%       { transform: translate(-30px, 45px) scale(1.06) rotate(8deg); }
+  75%       { transform: translate(45px, -15px) scale(0.95) rotate(-5deg); }
+}
+
+@keyframes pulseBlob {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.75; transform: scale(1.18); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* ─── Moving diagonal dot grid (Hero background) ────────────────────────── */
+@keyframes gridScrollDiag {
+  0%   { background-position: 0px 0px; }
+  100% { background-position: 36px 36px; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes spinReverse {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+/* ─── Shimmer keyframe ───────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ─── Sanity Studio Reset ────────────────────────────────────────────────── */
+.sanity-studio-container {
+  height: 100vh;
+  width: 100%;
+}
+
+/* ─── Reduced Motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}

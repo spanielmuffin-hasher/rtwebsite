@@ -1,0 +1,66 @@
+# ─── Environment variables ────────────────────────────────────────────────────
+.env
+.env.local
+.env.local.example
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# ─── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ─── Next.js build output ─────────────────────────────────────────────────────
+.next/
+out/
+build/
+dist/
+
+# ─── Sanity ───────────────────────────────────────────────────────────────────
+.sanity/
+sanity-cors.json
+
+# ─── Cache ────────────────────────────────────────────────────────────────────
+.cache/
+.turbo/
+.vercel/
+.netlify/
+
+# ─── TypeScript ───────────────────────────────────────────────────────────────
+*.tsbuildinfo
+next-env.d.ts
+
+# ─── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── Editor ───────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ─── Claude ───────────────────────────────────────────────────────────────────
+.claude/
+CLAUDE.md
+DEPLOYMENT.md
+CLIENT_GUIDE.md
+
+# ─── Misc ─────────────────────────────────────────────────────────────────────
+*.pem
+coverage/

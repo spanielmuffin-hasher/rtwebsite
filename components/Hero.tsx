@@ -174,7 +174,7 @@ export function Hero({ title, subtitle, cta, ctaSecondary, eyebrow }: HeroProps)
           { value: "2017", label: "Est." },
           { value: "9+",   label: "Years" },
           { value: "200+", label: "Projects" },
-          { value: "150+", label: "Members" },
+          { value: "50+", label: "Members" },
         ].map((s) => (
           <motion.div
             key={s.label}

@@ -6,7 +6,7 @@ import { SectionReveal } from "@/components/SectionReveal";
 
 const STATS = [
   { value: 27,  suffix: "+", label: "Years of Service",  icon: "🏛️" },
-  { value: 150, suffix: "+", label: "Active Members",     icon: "👥" },
+  { value: 50, suffix: "+", label: "Active Members",     icon: "👥" },
   { value: 200, suffix: "+", label: "Projects Completed", icon: "✅" },
   { value: 12,  suffix: "",  label: "District Trainers",  icon: "🎓" },
 ];

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SectionReveal } from "@/components/SectionReveal";
-import { ContactForm } from "@/components/sections/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact us",
@@ -12,24 +11,24 @@ const CONTACT_METHODS = [
   {
     title: "Mail Us",
     description: "Drop us an email and we'll respond within 24 hours.",
-    value: "rotaractcbecrystals@gmail.com",
-    href: "mailto:rotaractcbecrystals@gmail.com",
+    value: "raccoimbatorecrystals2526@gmail.com",
+    href: "mailto:raccoimbatorecrystals2526@gmail.com",
     icon: "📧",
     cta: "Send Email",
   },
   {
     title: "WhatsApp Us",
     description: "Reach us directly for quick queries or membership info.",
-    value: "+91 98765 43210",
-    href: "https://wa.me/919876543210",
+    value: "+91 79046 64543",
+    href: "https://wa.me/917904664543",
     icon: "💬",
     cta: "Open WhatsApp",
   },
   {
     title: "Instagram Page",
     description: "Follow us for event updates, photos, and announcements.",
-    value: "@rotaractcbecrystals",
-    href: "https://instagram.com/rotaractcbecrystals",
+    value: "@rac_cbe_crystals",
+    href: "https://instagram.com/rac_cbe_crystals",
     icon: "📸",
     cta: "Follow Us",
   },
@@ -86,53 +85,37 @@ export default function ContactUsPage() {
             ))}
           </div>
 
-          {/* Connect With Us — address + form */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Address */}
-            <SectionReveal direction="left">
-              <h2 className="text-3xl font-display font-bold text-neutral-900 mb-8">
-                Connect With Us
-              </h2>
-              <ul className="space-y-6 text-sm text-neutral-600">
-                <li className="flex gap-4">
-                  <span className="text-xl flex-shrink-0 mt-0.5">📍</span>
-                  <div>
-                    <p className="font-semibold text-neutral-900 mb-1">Address</p>
-                    <p className="leading-relaxed">Coimbatore, Tamil Nadu, India — 641 018</p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <span className="text-xl flex-shrink-0 mt-0.5">✉️</span>
-                  <div>
-                    <p className="font-semibold text-neutral-900 mb-1">Email</p>
-                    <a
-                      href="mailto:rotaractcbecrystals@gmail.com"
-                      className="text-primary hover:underline"
-                    >
-                      rotaractcbecrystals@gmail.com
-                    </a>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <span className="text-xl flex-shrink-0 mt-0.5">🌐</span>
-                  <div>
-                    <p className="font-semibold text-neutral-900 mb-1">District</p>
-                    <p>Rotary International District 3206</p>
-                  </div>
-                </li>
-              </ul>
-
-              {/* Map placeholder */}
-              <div className="mt-10 rounded-2xl bg-neutral-100 h-56 flex items-center justify-center border border-neutral-200">
-                <p className="text-neutral-400 text-sm">Map — Coimbatore, TN</p>
+          {/* Join Us — Google Form */}
+          <SectionReveal>
+            <div className="rounded-3xl border border-pink-100 bg-gradient-to-br from-pink-50 via-white to-violet-50 p-10 md:p-14 text-center max-w-2xl mx-auto">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-7 h-7 text-primary">
+                  <path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </div>
-            </SectionReveal>
-
-            {/* Contact form */}
-            <SectionReveal direction="right">
-              <ContactForm />
-            </SectionReveal>
-          </div>
+              <h2 className="text-3xl font-display font-bold text-neutral-900 mb-3">
+                Ready to Join Rotaract Crystals?
+              </h2>
+              <p className="text-neutral-500 leading-relaxed mb-8 max-w-md mx-auto">
+                Take the first step toward a journey of service, leadership, and lifelong fellowship.
+                Fill out our membership form and we&apos;ll get back to you soon.
+              </p>
+              <a
+                href="https://forms.gle/UR2uT1AbfPghP5NEA"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary px-8 py-4 text-base inline-flex items-center gap-2"
+              >
+                Fill the Membership Form
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                  <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <p className="mt-5 text-neutral-400 text-xs">
+                Opens in a new tab · Google Form
+              </p>
+            </div>
+          </SectionReveal>
         </div>
       </section>
     </>

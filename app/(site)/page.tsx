@@ -4,12 +4,10 @@ import { Hero } from "@/components/Hero";
 import { SectionReveal, StaggerReveal } from "@/components/SectionReveal";
 import { EventCard } from "@/components/EventCard";
 import { TeamCard } from "@/components/TeamCard";
-import { SupportCauses } from "@/components/sections/SupportCauses";
 import { FAQ } from "@/components/sections/FAQ";
 import { OfficialMessages } from "@/components/sections/OfficialMessages";
 import { OurProjects } from "@/components/sections/OurProjects";
 import { MilestoneBanner } from "@/components/sections/MilestoneBanner";
-import { Testimonials } from "@/components/sections/Testimonials";
 import { DiscoverSpirit } from "@/components/sections/DiscoverSpirit";
 import { GSAPHomeAnimations } from "@/components/sections/GSAPHomeAnimations";
 import { FloatingOrbs } from "@/components/FloatingOrbs";
@@ -180,9 +178,6 @@ export default async function HomePage() {
       {/* ── Discover Your Rotaract Spirit ─────────────────────── */}
       <DiscoverSpirit />
 
-      {/* ── Support Our Causes ────────────────────────────────── */}
-      <SupportCauses />
-
       {/* ── Crystals in Action (featured events) ──────────────── */}
       <OurProjects events={events} />
 
@@ -323,9 +318,6 @@ export default async function HomePage() {
           )}
         </div>
       </section>
-
-      {/* ── Reviews & Testimonials ────────────────────────────── */}
-      <Testimonials />
 
       {/* ── Recent Events ─────────────────────────────────────── */}
       {events.length > 0 && (

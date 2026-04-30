@@ -2,27 +2,24 @@ import { SectionReveal } from "@/components/SectionReveal";
 
 const MESSAGES = [
   {
-    role: "Message from President",
-    name: "President, 2024–25",
+    name: "President, 2025–26",
     message:
-      "As we embark on another remarkable year of service, I am proud to lead a club that consistently demonstrates the Rotaract spirit — fellowship, professional development, and community impact. Together we will set new benchmarks for District 3206.",
+      "As President of the Rotaract Club of Coimbatore Crystals, It is both an honor and a responsibility to lead a team driven by passion and purpose. Our club stands as a platform for young individuals to grow, serve, and create meaningful impact in society. Through every project and initiative, we strive to foster leadership, strengthen bonds, and bring positive change to the community. Together, we continue to build a legacy of service, collaboration, and excellence.",
     avatar: "P",
     color: "bg-primary",
   },
   {
-    role: "Message from Secretary",
-    name: "Secretary, 2024–25",
+    name: "Secretary - Communication, 2025–26",
     message:
-      "Every great project begins with a shared vision and disciplined execution. As Secretary, my commitment is to ensure our members are empowered, informed, and inspired to give their best to every initiative we undertake this year.",
+      "Being the Secretary Communication of the Rotaract Club of Coimbatore Crystals has been an enriching journey of coordination, learning, and teamwork. Every event we organize reflects the dedication and unity of our members. Behind the scenes, it is about ensuring smooth communication, structured planning, and bringing ideas to life efficiently. I am proud to be part of a club that consistently works towards growth while making a difference.",
     avatar: "S",
     color: "bg-neutral-800",
   },
   {
-    role: "Message from Immediate Past President",
-    name: "Immediate Past President",
+    name: "Secretary - Administration, 2025–26",
     message:
-      "The foundation we built together stands strong. I pass the torch with immense pride and complete confidence in this team. The best of Rotaract Crystals is always the chapter being written right now.",
-    avatar: "I",
+      "Serving as the Secretary Administration has given me the opportunity to contribute closely to the functioning and success of our club. It is a role that requires adaptability, support, and attention to detail, ensuring that every initiative is executed seamlessly. Working alongside a passionate team inspires me to learn and grow every day. I look forward to continuing this journey of service, creativity, and collaboration.",
+    avatar: "s",
     color: "bg-neutral-600",
   },
 ];
@@ -43,7 +40,7 @@ export function OfficialMessages() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {MESSAGES.map((item, i) => (
             <SectionReveal
-              key={item.role}
+              key={item.name}
               delay={i * 0.12}
               className="relative bg-white rounded-3xl p-8 shadow-card hover:shadow-card-hover transition-shadow duration-500"
             >
@@ -66,9 +63,7 @@ export function OfficialMessages() {
                   <p className="font-display font-bold text-neutral-900 text-sm">
                     {item.name}
                   </p>
-                  <p className="text-primary text-xs font-semibold tracking-wide">
-                    {item.role}
-                  </p>
+                
                 </div>
               </div>
             </SectionReveal>

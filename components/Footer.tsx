@@ -124,10 +124,10 @@ export function Footer() {
               <li className="flex gap-3">
                 <span className="text-primary mt-0.5">✉️</span>
                 <a
-                  href="mailto:rotaractcbecrystals@gmail.com"
+                  href="mailto:raccoimbatorecrystals2526@gmail.com"
                   className="hover:text-white transition-colors"
                 >
-                  rotaractcbecrystals@gmail.com
+                  raccoimbatorecrystals2526@gmail.com
                 </a>
               </li>
               <li className="mt-6">
